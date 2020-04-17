@@ -22,6 +22,12 @@ public class NumberIndex {
 		compute(digits, positions, options);
 	}
     
+	// 10 digitos y 4 posiciones
+	// para la posicion 1 se pueden poner 10 digitos (quito un digito el que pongo y quito una posicion) 
+	// compute(10, 4) = 10 * compute( 9, 3 )
+	// compute(9, 3) = 9 * compute( 8, 2 )
+	// compute(8, 2) = 8 * compute( 7, 1 )
+	// compute(7, 1) = 7
 	public static int compute(int digits, int positions, int[] options ){        
 		if( options[positions] == 0 ){
 			if( positions == 1 ) options[positions] = digits;
@@ -43,12 +49,16 @@ public class NumberIndex {
 		for( int i=0; i<digits; i++) check.add(i);
 		return getIndex(option, 0, check);
     }
-    
+	
+	// index = 1000
+	// check = [0,1,2,3,4,5,6,7,8,9]
+	// option = [-,-,-,-]
+	// n = 1
 	public void getOption( int index, int[] option, int n, Vector<Integer> check ){
 		n++;
 		if( n < option.length ){
-			int pos = index / options[positions-n];
-			index %= options[positions-n];
+			int pos = index / options[positions-n]; // 1000/504 = 1
+			index %= options[positions-n]; // 1000%504 = 496
 			option[n-1] = check.get(pos);
 			check.remove(pos);
 			getOption(index, option, n, check);

@@ -11,6 +11,7 @@ package nsgl.agents.examples.labyrinth.teseo.simple;
 public class TeseoSimple extends SimpleTeseoAgentProgram {
 
     public TeseoSimple() {}
+    
     @Override
     public int accion(boolean PF, boolean PD, boolean PA, boolean PI, boolean MT, boolean FAIL) {
         if (MT) return -1;

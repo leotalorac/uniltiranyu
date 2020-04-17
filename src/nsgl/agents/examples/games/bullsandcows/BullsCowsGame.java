@@ -8,6 +8,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import nsgl.agents.Action;
+import nsgl.agents.Percept;
 import nsgl.random.raw.JavaGenerator;
 
 /**
@@ -36,47 +38,51 @@ public class BullsCowsGame {
 		}catch(Exception e){ e.printStackTrace(); }
 		return null;
 	}
+	
+	public static int[] usuario(int l) {
+		int[] opt = new int[l];
+		for( int i=0; i<opt.length; i++ ) {
+			opt[i] = read("Digit?");
+		}
+		return opt;
+	}
 
 	public static void main( String[] args ){
-		int digits = read("Digits?");
-		int positions = read("Positions?");
+		int digits = read("Digits?"); // 10 digitos 0..9 
+		int positions = read("Positions?"); // 4 posiciones
 		NumberIndex ni = new NumberIndex(digits, positions);
 		SimpleBCPlayer destructor = new SimpleBCPlayer(ni);
-		SimpleBCPlayer player = new SimpleBCPlayer(ni);
 		//UNEquipoPlayer player = new UNEquipoPlayer(ni);
 		int s = ni.size();
 		JavaGenerator g = new JavaGenerator();
 		int c_number = g.integer(s);
 		int[] opt = ni.getOption(c_number);
-		boolean winner = false;
-		boolean error ;
+		boolean exit = false;
+		int b=-1, c=-1; 
+		Percept p = new Percept();
 		do{
-			int[] u_opt = player.next();
+			int[] u_opt = usuario(positions);
 			System.out.println("Your robot will try..");
 			for( int x : u_opt ) System.out.print(x);
 			System.out.println();
 			int[] u_bc = NumberIndex.compare(opt, u_opt);
-			error = !player.check(u_opt, u_bc);
 			System.out.println("Bulls (Fijas):"+u_bc[0]+ "Cows (Picas):"+u_bc[1]);
 			if(u_bc[0]==positions){
-				winner = true;
+				exit = true;
 				System.out.println("Congratulations. You are almost as intelligent as me");
 			}
-			int[] m_opt = destructor.next();
-			System.out.print("Destructor will try:");
-			for( int x : m_opt ) System.out.print(x);
-			System.out.println();
-			/*int[] bc = new int[2];
-            bc[0] = read("Bulls (Fijas)?");
-            bc[1] = read("Cows (Picas)?");*/
-			int[] bc = NumberIndex.compare(opt, m_opt);
-			System.out.println("Bulls (Fijas):"+bc[0]+ "Cows (Picas):"+bc[1]);
-			error = !destructor.check(m_opt, bc);
-			if( error ) System.out.println("You loser. You can't lie to me"); 
-			if( bc[0] == positions ){
-				winner = true;
-				System.out.println("As expected, I break your number (and your legs jajajaja)");
+			
+			p.setAttribute("B",  b);
+			p.setAttribute("C",  c);
+			
+			Action m_opt = destructor.compute(p);
+			System.out.println("Destructor will try:"+m_opt.getCode());
+			
+			exit = m_opt.getCode().contains("er");
+			if( !exit ) {
+				b = read("Bulls (Fijas)?");
+				c = read("Cows (Picas)?");
 			}
-		}while(!winner && !error);
+		}while(!exit);
 	}
 }
