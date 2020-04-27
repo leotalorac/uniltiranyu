@@ -33,7 +33,7 @@ public class TeseoMainFrame extends LabyrinthMainFrame {
     @SuppressWarnings("resource")
 	public TeseoMainFrame( Agent _agent, SimpleLanguage _language ) {
         super( "Teseo", _agent, _language );
-        this.setSize(new Dimension(660, 740));
+        this.setSize(new Dimension(660, 600));
         this.jMenuEditAgentProgram.setText("Editar");
         //this.jMenuAgentProgram.add(this.jMenuEditAgentProgram);
         this.jMenuEditAgentProgram.addActionListener(new java.awt.event.ActionListener() {

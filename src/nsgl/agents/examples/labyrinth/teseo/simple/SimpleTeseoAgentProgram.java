@@ -1,5 +1,6 @@
 package nsgl.agents.examples.labyrinth.teseo.simple;
 
+import com.sun.xml.internal.bind.v2.runtime.output.StAXExStreamWriterOutput;
 import nsgl.agents.Action;
 import nsgl.agents.AgentProgram;
 import nsgl.agents.Percept;
